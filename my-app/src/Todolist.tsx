@@ -1,11 +1,15 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent} from "react";
 import {FilterValuesType} from "./App";
+import "./Todolist.css";
+import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 export type TaskType = {
     id: string
     title: string
     isDone: boolean
 }
+
 type PropsType = {
     id: string
     title: string
@@ -20,27 +24,6 @@ type PropsType = {
 
 export function Todolist(props: PropsType) {
 
-    let [title, setTitle] = useState('')
-    let [error, setError] = useState <string | null>(null)
-    const addTask = () => {
-        if (title.trim() !== ""){
-            props.addTask(title.trim(), props.id );
-            setTitle("");
-        } else {
-            setError("Title is required");
-        }
-
-    }
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setTitle(e.currentTarget.value)
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
-            addTask();
-        }
-    }
-
     const onAllClickHandler = () => props.changeFilter("all", props.id)
     const onActiveClickHandler = () => props.changeFilter("active", props.id)
     const onCompletedClickHandler = () => props.changeFilter("completed", props.id)
@@ -49,18 +32,16 @@ export function Todolist(props: PropsType) {
         props.removeTodolist(props.id)
     }
 
+    const addTask = (title: string) => {
+        props.addTask(title, props.id)
+    }
+
     return (
         <div>
-            <h3>{props.title} <button onClick={removeTodolist}>x</button></h3>
-            <div>
-                <input value={title}
-                       onChange={onChangeHandler}
-                       onKeyDown={onKeyPressHandler}
-                       className={error ? "error" : ""}
-                />
-                <button onClick={addTask}>+</button>
-                {error && <div className="error-message">{error}</div>}
-            </div>
+            <h3>{props.title}
+                <button onClick={removeTodolist}>x</button>
+            </h3>
+             <AddItemForm  addItem={addTask}/>
             <ul>
                 {
                     props.tasks.map(t => {
@@ -74,21 +55,32 @@ export function Todolist(props: PropsType) {
                             <input type='checkbox'
                                    onChange={onChangeHandler}
                                    checked={t.isDone}/>
-                            <span>{t.title}</span>
+                            <EditableSpan title={t.title}/>
                             <button onClick={onClickHandler}>x
                             </button>
                         </li>
                     })
                 }
             </ul>
-            <div>
-                <button className={props.filter === 'all' ? 'active-filter' : ''}
-                    onClick={onAllClickHandler}>All</button>
-                <button className={props.filter === 'active' ? 'active-filter' : ''}
-                    onClick={onActiveClickHandler}>Active</button>
-                <button className={props.filter === 'completed' ? 'active-filter' : ''}
-                    onClick={onCompletedClickHandler}>Completed</button>
+            <div className='title'>
+                <div className='allName'>
+                    <button className={props.filter === 'all' ? 'active-filter' : ''}
+                            onClick={onAllClickHandler}>
+                        All
+                    </button>
+                </div>
+                <div className='activeName'>
+                    <button className={props.filter === 'active' ? 'active-filter' : ''}
+                            onClick={onActiveClickHandler}>Active
+                    </button>
+                </div>
+                <div className='completedName'>
+                    <button className={props.filter === 'completed' ? 'active-filter' : ''}
+                            onClick={onCompletedClickHandler}>Completed
+                    </button>
+                </div>
             </div>
         </div>
     )
 }
+

@@ -1,0 +1,13 @@
+.title{
+    display: flex;
+    justify-content: space-around;
+}
+.allName button{
+    background-color: #9ACD32;
+}
+.activeName button{
+    background-color: #7FFFD4;
+}
+.completedName button{
+    background-color: #FF6347;
+}
