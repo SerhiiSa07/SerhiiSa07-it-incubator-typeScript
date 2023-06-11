@@ -1,4 +1,7 @@
+import {Button, TextField} from "@mui/material";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import {ControlPoint} from "@mui/icons-material";
+import IconButton from "@mui/material/IconButton";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -7,20 +10,23 @@ type AddItemFormPropsType = {
 export function AddItemForm(props: AddItemFormPropsType) {
 
     let [title, setTitle] = useState('');
-    let [error, setError] = useState<string | null>(null)
-
+    let [error, setError] = useState <string | null> (null)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+
         setTitle(e.currentTarget.value)
+
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        if (e.charCode === 13) {
-            addTask();
+        setError(null)
+        if (e.keyCode  === 13) {
+            addItem();
         }
     }
-    const addTask = () => {
+    const addItem = () => {
+
         if (title.trim() !== "") {
-            props.addItem(title.trim());
+            props.addItem(title);
             setTitle("");
         } else {
             setError("Title is required");
@@ -28,13 +34,18 @@ export function AddItemForm(props: AddItemFormPropsType) {
     }
     return (
         <div>
-            <input value={title}
-                   onChange={onChangeHandler}
-                   onKeyDown={onKeyPressHandler}
-                   className={error ? "error" : ""}
+            <TextField value={title}
+                       variant={'outlined'}
+                       label={'Type value'}
+                       onChange={onChangeHandler}
+                       onKeyDown={onKeyPressHandler}
+                       error={!!error}
+                       helperText={error}
             />
-            <button onClick={addTask}>+</button>
-            {error && <div className="error-message">{error}</div>}
+            <IconButton onClick={addItem} color={'primary'}>
+                <ControlPoint/>
+            </IconButton>
+
         </div>
     )
 }
