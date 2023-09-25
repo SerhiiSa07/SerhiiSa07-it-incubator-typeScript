@@ -1,17 +1,17 @@
-import React, {useState} from 'react';
+import React, {useReducer, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from '@mui/material';
 import { Menu } from '@mui/icons-material';
-import {useDispatch} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
+import {useDispatch} from 'react-redux'
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
 import {
     addTodolistAC,
     changeTodolistFilterAC,
     changeTodolistTitleAC,
-    removeTodolistAC
+    removeTodolistAC, todolistsReducer
 } from "./state/todolists-reducer";
 
 export type FilterValuesType = "all" | "completed" | "active";
@@ -26,17 +26,18 @@ export type TaskStateType = {
     [key: string]: Array<TaskType>
 }
 
-function App() {
+function AppWithReducers() {
+
     let todolistId1 = v1();
     let todolistId2 = v1();
 
     const dispatch = useDispatch();
 
-    let [todolists, setTodolists] = useState<Array<TodolistType>> ([
+    let [todolists, dispatchTodolistsReducer] = useReducer(todolistsReducer,[
         {id: todolistId1, title: "What to learn", filter: "active"},
         {id: todolistId2, title: "What to buy", filter: "completed"}
     ]);
-    let [tasksObj, setTasks] = useState<TaskStateType>({
+    let [tasksObj, dispatchTasksReducer] = useReducer(tasksReducer,{
         [todolistId1]: [
             {id: v1(), title: 'HTML&CSS', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -77,6 +78,7 @@ function App() {
         const action = addTodolistAC(title)
         dispatch(action);
     }
+
     return (
         <div className='App'>
             <AppBar position="static">
@@ -138,4 +140,4 @@ function App() {
         </div>
     );
 }
-export default App;
+export default AppWithReducers;
