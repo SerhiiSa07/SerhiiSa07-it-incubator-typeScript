@@ -18,7 +18,7 @@ type PropsType = {
     title: string
     tasks: Array<TaskType>
     removeTask: (id: string, todolistId: string) => void
-    changeFilter: (id: string, filter: FilterValuesType) => void
+    changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
     changeTasksStatus: (id: string, isDone: boolean, todolistId: string) => void
     changeTasksTitle: (id: string, newTitle: string, todolistId: string) => void
