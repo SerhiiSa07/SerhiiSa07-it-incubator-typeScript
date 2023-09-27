@@ -28,9 +28,9 @@ type PropsType = {
 }
 
 export function Todolist(props: PropsType) {
-    const onAllClickHandler = () => props.changeFilter("all", props.filter)
-    const onActiveClickHandler = () => props.changeFilter("active", props.filter)
-    const onCompletedClickHandler = () => props.changeFilter("completed", props.filter)
+    const onAllClickHandler = () => props.changeFilter("all", props.id)
+    const onActiveClickHandler = () => props.changeFilter("active", props.id)
+    const onCompletedClickHandler = () => props.changeFilter("completed", props.id)
     const removeTodolist = () => {
 
         props.removeTodolist(props.id)
