@@ -74,7 +74,6 @@ function AppWithRedux() {
 
 
 
-
     return (
         <div className='App'>
             <AppBar position="static">
@@ -100,7 +99,7 @@ function AppWithRedux() {
                 </Grid>
                 <Grid container spacing={3}>
                     {
-                        todolists.map((tl) => {
+                        todolists.map(tl => {
                             let allTodolistTasks = tasks[tl.id];
                             let tasksForTodolist = allTodolistTasks;
                             return <Grid item>
@@ -116,8 +115,7 @@ function AppWithRedux() {
                                         changeTasksStatus={changeStatus}
                                         changeTasksTitle={changeTasksTitle}
                                         filter={tl.filter}
-                                        removeTodolist={removeTodolist}
-                                        changeTodolistTitle={changeTodolistTitle}
+                                        removeTodolist={removeTodolist} changeTodolistTitle={changeTodolistTitle}
                                     />
                                 </Paper>
                             </Grid>
