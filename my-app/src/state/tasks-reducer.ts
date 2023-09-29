@@ -51,40 +51,38 @@ export const tasksReducer = (state: TaskStateType = initialState, action: Action
         }
         case 'CHANGE-TASK-STATUS' : {
 
-                let todolistTasks = state[action.todolistId];
-                //найдем нужную таску:
-                let task = todolistTasks.find(t => t.id === action.taskId);
-                //изменим таску, если она нашлась
-                if (task) {
-                    task.isDone = action.isDone;
-                }
-                state[action.todolistId] = [...todolistTasks]
-                return ({...state});
+            let todolistTasks = state[action.todolistId];
+            state[action.todolistId] = todolistTasks.map(t => t.id === action.taskId ? {
+                ...t,
+                isDone: action.isDone
+            } : t);
+            return ({...state});
+
         }
+
         case 'CHANGE-TASK-TITLE' : {
 
-            const stateCopy = {...state};
-            const tasks = stateCopy[action.todolistId];
-            //найдем нужную таску
-            let task = tasks.find(t => t.id === action.taskId);
-            //изменим таску, если она нашлась
-            if (task) {
-                task.title = action.title;
-            }
-            return stateCopy
+            let todolistTasks = state[action.todolistId];
+            state[action.todolistId] = todolistTasks.map(t => t.id === action.taskId ? {
+                ...t,
+                title: action.title
+            } : t);
+
+            return ({...state});
         }
+
         case 'ADD-TODOLIST' : {
-            const stateCopy = {...state};
-
-            stateCopy[action.todolistId] = [];
-
-            return stateCopy;
+            return {
+                ...state, [action.todolistId]: []
+            }
         }
+
         case 'REMOVE-TODOLIST' : {
-            const stateCope = {...state};
-            delete stateCope[action.id]
-            return stateCope;
+            const copyState = {...state};
+            delete copyState[action.id]
+            return copyState;
         }
+
         default:
             return state
     }
