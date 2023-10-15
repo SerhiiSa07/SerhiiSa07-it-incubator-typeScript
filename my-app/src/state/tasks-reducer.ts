@@ -7,11 +7,13 @@ export type RemoveTaskActionType = {
     todolistId: string
     taskId: string
 }
+
 export type AddTaskActionType = {
     type: 'ADD-TASK'
     title: string
     todolistId: string
 }
+
 export type ChangeTaskStatusActionType = {
     type: 'CHANGE-TASK-STATUS'
     taskId: string
@@ -57,7 +59,6 @@ export const tasksReducer = (state: TaskStateType = initialState, action: Action
                 isDone: action.isDone
             } : t);
             return ({...state});
-
         }
 
         case 'CHANGE-TASK-TITLE' : {
@@ -103,4 +104,3 @@ export const changeTaskStatusAC = (taskId: string, isDone: boolean, todolistId: 
 export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string): ChangeTaskTitleActionType => {
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
 }
-
