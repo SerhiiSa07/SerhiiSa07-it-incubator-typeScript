@@ -1,7 +1,7 @@
 import React, {useCallback} from "react";
 import {FilterValuesType} from "./App";
 import "./Todolist.css";
-import {AddItemForm} from "./AddItemForm";
+import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import IconButton from "@mui/material/IconButton";
 import {Delete} from "@mui/icons-material";

@@ -2,6 +2,7 @@ import {Button, TextField} from "@mui/material";
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {ControlPoint} from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
+import {useAddItemForm} from "./hooks/useAddItemForm";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -9,36 +10,13 @@ type AddItemFormPropsType = {
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
 
-    console.log('AddItemForm is called')
+    const {
+        title,
+        error,
+        onChangeHandler,
+        onKeyPressHandler,
+        addItem} = useAddItemForm(props.addItem)
 
-    let [title, setTitle] = useState('');
-    let [error, setError] = useState <string | null> (null)
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-
-        setTitle(e.currentTarget.value)
-
-    }
-    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-
-        if (error !== null){
-            setError(null)
-        }
-
-
-        if (e.keyCode  === 13) {
-            addItem();
-        }
-    }
-    const addItem = () => {
-
-        if (title.trim() !== "") {
-            props.addItem(title);
-            setTitle("");
-        } else {
-            setError("Title is required");
-        }
-    }
     return (
         <div>
             <TextField value={title}
